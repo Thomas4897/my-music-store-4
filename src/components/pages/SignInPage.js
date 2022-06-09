@@ -5,7 +5,7 @@ import Layout from '../Layout';
 import { useUserData } from '../../context/userDataContext';
 
 function SignInPage() {
-  const { userData, addToUserData } = useUserData();
+  const { userData, addToUserData, removeUserData } = useUserData();
 
   const [signInForm, setSignInForm] = useState({
     email: '',
@@ -28,38 +28,54 @@ function SignInPage() {
       .then((response) => {
         console.log('user sign out response: ', response);
         // Remove the user data from the user context when a user logs out
+        removeUserData();
       });
   };
+  console.log(userData);
 
   return (
     <Layout>
-      <Box p={4}>
-        <h1>Sign in</h1>
-        <Box mb={3}>
-          <TextField
-            id="email"
-            label="Email"
-            variant="standard"
-            value={signInForm.email}
-            onChange={(event) => {
-              setSignInForm({ ...signInForm, email: event.target.value });
-            }}
-          />
-        </Box>
-        <Box mb={3}>
-          <TextField
-            id="password"
-            type="password"
-            label="Password"
-            variant="standard"
-            value={signInForm.password}
-            onChange={(event) => {
-              setSignInForm({ ...signInForm, password: event.target.value });
-            }}
-          />
-        </Box>
-        <Button variant="contained" onClick={onSubmit}>Sign in</Button>
-      </Box>
+      {userData === undefined
+        ? (
+          <Box p={4}>
+            <h1>Sign in</h1>
+            <Box mb={3}>
+              <TextField
+                id="email"
+                label="Email"
+                variant="standard"
+                value={signInForm.email}
+                onChange={(event) => {
+                  setSignInForm({ ...signInForm, email: event.target.value });
+                }}
+              />
+            </Box>
+            <Box mb={3}>
+              <TextField
+                id="password"
+                type="password"
+                label="Password"
+                variant="standard"
+                value={signInForm.password}
+                onChange={(event) => {
+                  setSignInForm({ ...signInForm, password: event.target.value });
+                }}
+              />
+            </Box>
+            <Button variant="contained" onClick={onSubmit}>Sign in</Button>
+          </Box>
+        )
+        : (
+          <Box p={4}>
+            <h1>
+              Hi,
+              {' '}
+              {userData.firstName}
+            </h1>
+            <Button variant="contained" onClick={handleSignOut}>Sign out</Button>
+          </Box>
+        )}
+
     </Layout>
   );
 }
