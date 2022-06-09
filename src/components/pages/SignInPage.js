@@ -2,8 +2,11 @@ import { Box, Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import { logInUserRequest } from '../../dataFetching';
 import Layout from '../Layout';
+import { useUserData } from '../../context/userDataContext';
 
 function SignInPage() {
+  const { userData, addToUserData } = useUserData();
+
   const [signInForm, setSignInForm] = useState({
     email: '',
     password: '',
@@ -15,6 +18,7 @@ function SignInPage() {
         console.log('user sign in response: ', response);
         // Put the resulting user data in react context over the entire application
         // That it can be accessed from any component in the component tree.
+        addToUserData(response.data);
       });
   };
 
