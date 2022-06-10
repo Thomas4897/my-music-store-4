@@ -77,7 +77,7 @@ function ShoppingCartProvider(props) {
   const removeFromCart = (productId) => {
     const newShoppingCart = shoppingCart.filter((cartItem) => cartItem.id !== productId);
 
-    dispatch({
+    return dispatch({
       type: REMOVE_FROM_CART_ACTION,
       payload: {
         shoppingCart: newShoppingCart,
