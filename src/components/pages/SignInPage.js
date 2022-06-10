@@ -5,7 +5,7 @@ import Layout from '../Layout';
 import { useUserData } from '../../context/userDataContext';
 
 function SignInPage() {
-  const { userData, addToUserData, removeUserData } = useUserData();
+  const { user, signIn, signOut } = useUserData();
 
   const [signInForm, setSignInForm] = useState({
     email: '',
@@ -15,27 +15,26 @@ function SignInPage() {
   const onSubmit = () => {
     logInUserRequest()
       .then((response) => {
-        console.log('user sign in response: ', response);
+        // console.log('user sign in response: ', response);
         // Put the resulting user data in react context over the entire application
         // That it can be accessed from any component in the component tree.
-        addToUserData(response.data);
+        signIn(response.data);
       });
   };
 
   const handleSignOut = () => {
     // lougout the user
     logInUserRequest()
-      .then((response) => {
-        console.log('user sign out response: ', response);
+      .then(() => {
+        // console.log('user sign out response: ', response);
         // Remove the user data from the user context when a user logs out
-        removeUserData();
+        signOut();
       });
   };
-  console.log(userData);
 
   return (
     <Layout>
-      {userData === undefined
+      {user === undefined
         ? (
           <Box p={4}>
             <h1>Sign in</h1>
@@ -70,7 +69,7 @@ function SignInPage() {
             <h1>
               Hi,
               {' '}
-              {userData.firstName}
+              {user.firstName}
             </h1>
             <Button variant="contained" onClick={handleSignOut}>Sign out</Button>
           </Box>
