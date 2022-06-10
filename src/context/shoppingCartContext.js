@@ -1,8 +1,27 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, {
+  createContext, useContext, useReducer,
+} from 'react';
 
 export const shoppingCartContext = createContext();
 
 export const useShoppingCart = () => useContext(shoppingCartContext);
+
+const ADD_TO_CART_ACTION = 'ADD_TO_CART';
+const REMOVE_FROM_CART_ACTION = 'REMOVE_FROM_CART';
+const EMPTY_CART_ACTION = 'EMPTY_CART';
+
+const shoppingCartReducer = (state, action) => {
+  switch (action.type) {
+    case ADD_TO_CART_ACTION:
+      return action.payload.shoppingCart;
+    case REMOVE_FROM_CART_ACTION:
+      return action.payload.shoppingCart;
+    case EMPTY_CART_ACTION:
+      return [];
+    default:
+      return state;
+  }
+};
 
 // This component is gonna handle everythign that relates to the shopping cart.
 // that way all we have to do is wrap our application with it.
@@ -10,11 +29,9 @@ export const useShoppingCart = () => useContext(shoppingCartContext);
 function ShoppingCartProvider(props) {
   const { children } = props;
 
-  const [shoppingCart, setShoppingCart] = useState([]);
+  const [shoppingCart, dispatch] = useReducer(shoppingCartReducer, []);
 
   const addToCart = (product) => {
-    // does this product already exist in the shopping cart?
-
     const productFound = shoppingCart.find((cartItem) => cartItem.id === product.id);
 
     // // If it does, update the quantity of the existing one
@@ -31,7 +48,12 @@ function ShoppingCartProvider(props) {
         return cartItem;
       });
 
-      return setShoppingCart(newShoppingCart);
+      return dispatch({
+        type: ADD_TO_CART_ACTION,
+        payload: {
+          shoppingCart: newShoppingCart,
+        },
+      });
     }
 
     // // If it does not add it to the end of the list
@@ -44,18 +66,34 @@ function ShoppingCartProvider(props) {
       total: product.price,
     }];
 
-    return setShoppingCart(newShoppingCart);
+    return dispatch({
+      type: ADD_TO_CART_ACTION,
+      payload: {
+        shoppingCart: newShoppingCart,
+      },
+    });
   };
 
   const removeFromCart = (productId) => {
     const newShoppingCart = shoppingCart.filter((cartItem) => cartItem.id !== productId);
-    setShoppingCart(newShoppingCart);
+
+    dispatch({
+      type: REMOVE_FROM_CART_ACTION,
+      payload: {
+        shoppingCart: newShoppingCart,
+      },
+    });
   };
 
-  const emptyCart = () => setShoppingCart([]);
+  const emptyCart = () => {
+    dispatch({ type: EMPTY_CART_ACTION });
+  };
 
   return (
-    <shoppingCartContext.Provider value={{ shoppingCart, addToCart, removeFromCart, emptyCart }}>
+    <shoppingCartContext.Provider value={{
+      shoppingCart, addToCart, removeFromCart, emptyCart,
+    }}
+    >
       {children}
     </shoppingCartContext.Provider>
   );
