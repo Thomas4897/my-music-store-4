@@ -9,10 +9,12 @@ import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { useShoppingCart } from '../context/shoppingCartContext';
 
 function ProductDisplay(props) {
-  const { addToCart } = useShoppingCart();
+  // const { addToCart } = useShoppingCart();
+  const dispatch = useDispatch();
 
   const {
     product,
@@ -50,8 +52,9 @@ function ProductDisplay(props) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
+
         <Box display="flex" justifyContent="space-between" width="100%">
-          <Button variant="outlined" startIcon={<AddIcon />} onClick={() => addToCart(product)}>Add to cart</Button>
+          <Button variant="outlined" startIcon={<AddIcon />} onClick={() => dispatch({ type: 'ADD_TO_CART', payload: { product } })}>Add to cart</Button>
           <IconButton aria-label="add to favorites">
             <FavoriteIcon />
           </IconButton>

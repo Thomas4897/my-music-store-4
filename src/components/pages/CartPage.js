@@ -1,8 +1,10 @@
 import { Box, Button } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import ReplayIcon from '@mui/icons-material/Replay';
 import HomeIcon from '@mui/icons-material/Home';
-import { useShoppingCart } from '../../context/shoppingCartContext';
+import { Link } from 'react-router-dom';
+// import { useShoppingCart } from '../../context/shoppingCartContext';
+import { useDispatch, useSelector } from 'react-redux';
 import CartItem from '../CartItem';
 import Layout from '../Layout';
 // const sampleShoppingCart = [
@@ -24,10 +26,12 @@ import Layout from '../Layout';
 // ];
 
 function CartPage() {
-  const {
-    shoppingCart,
-    emptyCart,
-  } = useShoppingCart();
+  // const {
+  //   shoppingCart,
+  //   emptyCart,
+  // } = useShoppingCart();
+  const dispatch = useDispatch();
+  const shoppingCart = useSelector((state) => state.shoppingCart);
 
   // We want to display whats in the shopping cart.
   return (
@@ -52,19 +56,21 @@ function CartPage() {
               fullWidth
               variant="contained"
               startIcon={<ReplayIcon />}
-              onClick={emptyCart}
+              onClick={() => dispatch({ type: 'EMPTY_CART' })}
             >
               Empty Cart
             </Button>
           </Box>
           <Box mb={3}>
-            <Button
-              fullWidth
-              variant="contained"
-              startIcon={<HomeIcon />}
-            >
-              Home
-            </Button>
+            <Link to="/">
+              <Button
+                fullWidth
+                variant="contained"
+                startIcon={<HomeIcon />}
+              >
+                Home
+              </Button>
+            </Link>
           </Box>
         </Box>
       </Box>

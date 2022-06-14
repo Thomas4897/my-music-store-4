@@ -1,11 +1,13 @@
 import { Box, Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { logInUserRequest } from '../../dataFetching';
 import Layout from '../Layout';
-import { useUserData } from '../../context/userDataContext';
+// import { useUserData } from '../../context/userDataContext';
 
 function SignInPage() {
-  const { user, signIn, signOut } = useUserData();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   const [signInForm, setSignInForm] = useState({
     email: '',
@@ -18,7 +20,7 @@ function SignInPage() {
         // console.log('user sign in response: ', response);
         // Put the resulting user data in react context over the entire application
         // That it can be accessed from any component in the component tree.
-        signIn(response.data);
+        dispatch({ type: 'LOG_IN', payload: { user: response.data } });
       });
   };
 
@@ -28,13 +30,13 @@ function SignInPage() {
       .then(() => {
         // console.log('user sign out response: ', response);
         // Remove the user data from the user context when a user logs out
-        signOut();
+        dispatch({ type: 'LOG_OUT' });
       });
   };
 
   return (
     <Layout>
-      {user === undefined
+      {!user
         ? (
           <Box p={4}>
             <h1>Sign in</h1>

@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import React from 'react';
 import Header from './Header';
 
-const Layout = (props) => {
+function Layout(props) {
   const { children } = props;
 
   return (
@@ -12,8 +12,7 @@ const Layout = (props) => {
         {children}
       </div>
     </Box>
-  )
-
-};
+  );
+}
 
 export default Layout;
