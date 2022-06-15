@@ -1,37 +1,19 @@
 import { Box, Button } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
 import ReplayIcon from '@mui/icons-material/Replay';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link } from 'react-router-dom';
 // import { useShoppingCart } from '../../context/shoppingCartContext';
-import { useDispatch, useSelector } from 'react-redux';
 import CartItem from '../CartItem';
 import Layout from '../Layout';
-// const sampleShoppingCart = [
-
-//   {
-//     id: '234',
-//     title: "Red Drum Set",
-//     price: 59999,
-//     quantity: 2,
-//     image: 'https://m.media-amazon.com/images/I/61YlBr7OQfS._AC_SL1500_.jpg',
-//  },
-//  {
-//   id: '123',
-//   title: "Blue Drum Set",
-//   price: 59999,
-//   quantity: 2,
-//   image: 'https://m.media-amazon.com/images/I/61YlBr7OQfS._AC_SL1500_.jpg',
-// },
-// ];
+import { emptyCartActionCreator, useShoppingCart } from '../../reduxStore/shoppingCartState';
 
 function CartPage() {
   // const {
   //   shoppingCart,
   //   emptyCart,
   // } = useShoppingCart();
-  const dispatch = useDispatch();
-  const shoppingCart = useSelector((state) => state.shoppingCart);
+  const shoppingCart = useShoppingCart();
 
   // We want to display whats in the shopping cart.
   return (
@@ -56,7 +38,7 @@ function CartPage() {
               fullWidth
               variant="contained"
               startIcon={<ReplayIcon />}
-              onClick={() => dispatch({ type: 'EMPTY_CART' })}
+              onClick={() => emptyCartActionCreator()}
             >
               Empty Cart
             </Button>
