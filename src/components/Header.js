@@ -3,16 +3,13 @@ import {
   AppBar, Badge, Box, Button, IconButton, Toolbar, Typography,
 } from '@mui/material';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-// import { useShoppingCart } from '../context/shoppingCartContext';
-// import { useUserData } from '../context/userDataContext';
+import { useShoppingCart } from '../reduxStore/shoppingCartState';
+import { useUser } from '../reduxStore/userState';
 
 function Header() {
-  // const { shoppingCart } = useShoppingCart();
-  // const { user } = useUserData();
-  const user = useSelector((state) => state.user);
-  const shoppingCart = useSelector((state) => state.shoppingCart);
+  const { user } = useUser();
+  const { shoppingCart } = useShoppingCart();
 
   const itemQuantity = shoppingCart.reduce((acc, cartItem) => acc + cartItem.quantity, 0);
 

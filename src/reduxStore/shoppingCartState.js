@@ -5,44 +5,32 @@ const ADD_TO_CART_ACTION = 'ADD_TO_CART';
 const REMOVE_FROM_CART_ACTION = 'REMOVE_FROM_CART';
 const EMPTY_CART_ACTION = 'EMPTY_CART';
 
-// export const useShoppingCart = () => useSelector((state) => state.shoppingCart);
-
 //! ACTION CREATORS
-//! A function that returns an action
-const dispatch = useDispatch();
 
-export const addToCartActionCreator = (product) => {
-  dispatch(
-    {
-      type: ADD_TO_CART_ACTION,
-      payload: { product },
-    },
-  );
-};
-
-export const removeFromCartActionCreator = (cartItem) => {
-  dispatch(
-    {
-      type: REMOVE_FROM_CART_ACTION,
-      payload: { productId: cartItem.id },
-    },
-  );
-};
-
-export const emptyCartActionCreator = () => {
-  dispatch(
-    {
-      type: EMPTY_CART_ACTION,
-    },
-  );
-};
-
-export const useShoppingCart = () => ({
-  shoppingCart: useSelector((state) => state.shoppingCart),
-  addtoCart: addToCartActionCreator(),
-  removeFromCart: removeFromCartActionCreator(),
-  emptyCart: emptyCartActionCreator(),
+export const addToCartActionCreator = (product) => ({
+  type: ADD_TO_CART_ACTION,
+  payload: { product },
 });
+
+export const removeFromCartActionCreator = (productId) => ({
+  type: REMOVE_FROM_CART_ACTION,
+  payload: { productId },
+});
+
+export const emptyCartActionCreator = () => ({
+  type: EMPTY_CART_ACTION,
+});
+
+export const useShoppingCart = () => {
+  const dispatch = useDispatch();
+
+  return {
+    shoppingCart: useSelector((state) => state.shoppingCart),
+    addToCart: (product) => dispatch(addToCartActionCreator(product)),
+    removeFromCart: (productId) => dispatch(removeFromCartActionCreator(productId)),
+    emptyCart: () => dispatch(emptyCartActionCreator()),
+  };
+};
 
 //* --------------------------------------------------------
 

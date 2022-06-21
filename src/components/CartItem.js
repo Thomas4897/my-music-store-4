@@ -5,12 +5,11 @@ import {
 } from '@mui/material';
 import React from 'react';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { removeFromCartActionCreator } from '../reduxStore/shoppingCartState';
-// import { useShoppingCart } from '../context/shoppingCartContext';
+import { useShoppingCart } from '../reduxStore/shoppingCartState';
 
 function CartItem(props) {
   const { cartItem } = props;
-  // const { removeFromCart } = useShoppingCart();
+  const { removeFromCart } = useShoppingCart();
 
   return (
     <Card>
@@ -43,7 +42,7 @@ function CartItem(props) {
           </Typography>
         </Box>
         <Box px={2} display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-          <IconButton onClick={() => removeFromCartActionCreator()}>
+          <IconButton onClick={() => removeFromCart(cartItem.id)}>
             <DeleteForeverIcon />
           </IconButton>
         </Box>

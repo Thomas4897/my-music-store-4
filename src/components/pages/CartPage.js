@@ -3,17 +3,14 @@ import React from 'react';
 import ReplayIcon from '@mui/icons-material/Replay';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link } from 'react-router-dom';
-// import { useShoppingCart } from '../../context/shoppingCartContext';
+import { useSelector } from 'react-redux';
 import CartItem from '../CartItem';
 import Layout from '../Layout';
-import { emptyCartActionCreator, useShoppingCart } from '../../reduxStore/shoppingCartState';
+import { useShoppingCart } from '../../reduxStore/shoppingCartState';
 
 function CartPage() {
-  // const {
-  //   shoppingCart,
-  //   emptyCart,
-  // } = useShoppingCart();
-  const shoppingCart = useShoppingCart();
+  const shoppingCart = useSelector((state) => state.shoppingCart);
+  const { emptyCart } = useShoppingCart();
 
   // We want to display whats in the shopping cart.
   return (
@@ -38,7 +35,7 @@ function CartPage() {
               fullWidth
               variant="contained"
               startIcon={<ReplayIcon />}
-              onClick={() => emptyCartActionCreator()}
+              onClick={() => emptyCart()}
             >
               Empty Cart
             </Button>

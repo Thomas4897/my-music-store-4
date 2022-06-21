@@ -11,7 +11,7 @@ function HomePage() {
   useEffect(
     () => {
       fetchProductData()
-        .then((data) => setProductData(data))
+        .then((response) => setProductData(response.data))
         .catch((error) => console.log('error: ', error));
     },
     [],
