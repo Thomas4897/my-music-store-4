@@ -20,6 +20,11 @@ function Header() {
           <Link to="/">My Music Store</Link>
         </Typography>
         <Box mr={2}>
+          <Link to="/admin">
+            <Button variant="contained" color="primary">Control Panel</Button>
+          </Link>
+        </Box>
+        <Box mr={2}>
           <Link to="/signin">
             {!user ? (
 
