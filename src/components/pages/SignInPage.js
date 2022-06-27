@@ -1,4 +1,5 @@
 import { Box, Button, TextField } from '@mui/material';
+import axios from 'axios';
 import React, { useState } from 'react';
 import { logInUserRequest } from '../../dataFetching';
 import { useUser } from '../../reduxStore/userState';
@@ -13,12 +14,16 @@ function SignInPage() {
   });
 
   const onSubmit = () => {
-    logInUserRequest()
+    axios.post('http://localhost:3017/sign-in', { credentials: { email: signInForm.email, password: signInForm.password } })
       .then((response) => {
         // console.log('user sign in response: ', response);
         // Put the resulting user data in react context over the entire application
         // That it can be accessed from any component in the component tree.
-        logIn({ user: response.data });
+        logIn(response.data.user);
+        console.log('user logged in');
+      }).catch((error) => {
+        console.log('Unable to log in.');
+        console.log('error:', error);
       });
   };
 

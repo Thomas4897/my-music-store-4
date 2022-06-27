@@ -6,11 +6,11 @@ function Layout(props) {
   const { children } = props;
 
   return (
-    <Box minWidth={320}>
+    <Box>
       <Header />
-      <div>
+      <Box>
         {children}
-      </div>
+      </Box>
     </Box>
   );
 }
